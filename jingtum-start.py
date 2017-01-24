@@ -8,8 +8,8 @@ fingate.setTest(True)
 fingate_address = "jpLpucnjfX7ksggzc9Qw6hMSm1ATKJe3AF"
 fingate_secret = "sha4eGoQujTi9SsRSxGN5PamV3YQ4"
 
-coinsCode = "00000005",
-coinsSecret = "b33802b7f345fc44e6bd1d3b11c86b412de9ec38",
+coinsCode = "00000005"
+coinsSecret = "b33802b7f345fc44e6bd1d3b11c86b412de9ec38"
 
 coins_issuer = "jBciDE8Q3uJjf111VeiUNM775AMKHEbBLS"
 
@@ -139,16 +139,29 @@ def test_transactions():
         print payment
 
 
-def test_issueCustom():
+def test_issue_custom_query_issue():
     coinsFingate = FinGate()
-    coinsFingate.setConfig(coinsCode, coins_secret)
+    coinsFingate.setTest(True)
+    coinsFingate.setConfig(coinsCode, coinsSecret)
     ret = coinsFingate.issueCustomTum(coinsFingate.getNextUUID(), coins, "123.45", test_address)
     print ret
+
+    ret = coinsFingate.queryIssue(ret['order'])
+    print ret
+
     wallet = Wallet(test_address, test_address_scret)
     ret = wallet.getBalance()
     balances = ret['balances']
     for balance in balances:
         print balance
+
+
+def test_query_custom():
+    coinsFingate = FinGate()
+    coinsFingate.setTest(True)
+    coinsFingate.setConfig(coinsCode, coinsSecret)
+    ret = coinsFingate.queryCustomTum(coins, time.time())
+    print ret
 
 
 if __name__ == '__main__':
@@ -160,4 +173,5 @@ if __name__ == '__main__':
     # test_order()
     # test_cancel_order_and_transaction()
     # test_transactions()
-    test_issueCustom()
+    test_issue_custom_query_issue()
+    # test_query_custom()
